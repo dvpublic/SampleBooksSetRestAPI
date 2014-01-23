@@ -57,7 +57,7 @@ HAL links.
 # Group Book
 Book-related resources of *BooksSet API*.
 
-## Book [/books/{id}{?fields}]
+## Book [/v1/books/{id}{?fields}]
 A single Book object. The Book resource is the only resource in the BooksSet API. It represents a single book in books set.
 
 The Book resource has the following attributes: 
@@ -129,7 +129,7 @@ To update a Book send a JSON with updated value for one or more of the Book reso
             {"code" : 401, "message": "book wasn't found"}
 
 
-## Books Collection [/books{?author,title,limit,offset}]
+## Books Collection [/v1/books{?author,title,limit,offset}]
 Collection of all Books.
 
 The Book Collection resource has the following attribute:
