@@ -1,0 +1,188 @@
+FORMAT: 1A
+
+# BooksSet API
+Sample REST API for books set. 
+
+## Authentication
+BooksSet API does not provide authenticated access.
+
+## Media Types
+Where applicable this API uses the [HAL+JSON](https://github.com/mikekelly/hal_specification/blob/master/hal_specification.md) media-type to represent resources states and affordances.
+
+Requests with a message-body are using plain JSON to set or update resource states.
+
+## Error States
+200 - OK, 400 - Bad Request, 500 - Internal Server Error
+
+# BooksSet API Root [/]
+BooksSet API entry point.
+
+This resource does not have any attributes. Instead it offers the initial API affordances in the form of the HTTP Link header and 
+HAL links.
+
+## Retrieve the Entry Point [GET]
+
++ Response 200 (application/hal+json)
+    + Headers
+    
+            Link: <http:/api.booksset.com/>;rel="self",<http:/api.booksset.com/books>;rel="books"
+
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/" },
+                    "Books": { "href": "/books?{since}", "templated": true }
+                }
+            }
+
+# Group Book
+Book-related resources of *BooksSet API*.
+
+## Book [/books/{id}{?fields}]
+A single Book object. The Book resource is the only resource in the BooksSet API. It represents a single book in books set.
+
+The Book resource has the following attributes: 
+
+- id
+- title
+- author
+- released
+
+The state *id* is assigned by the BooksSet API at the moment of creation. 
+
++ Model (application/hal+json)
+
+    HAL+JSON representation of Book Resource. In addition to representing its state in the JSON form it offers affordances in the form of the HTTP Link header and HAL links.
+
+    + Headers
+
+            Link: <http:/api.booksset.com/books/1236>;rel="self"
+
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/books/1236" },
+                },
+                "id": "1236",
+                "title": "Yellow mist",
+                "author": "Alexander Volkov",
+                "released": "1970"
+            }
+
+
+### Retrieve a Single Book [GET]
++ Parameters
+    + id (required, number) ... numerical ID of the Book
+    + fields (optional, string) ... comma separated list of required book attributes
+
++ Response 200
+
+    [Book][]
+    
++ Response 400
+
+    + Body
+
+            {"code" : 401, "message": "book wasn't found"}
+
+### Edit a Book [PATCH]
+To update a Book send a JSON with updated value for one or more of the Book resource attributes. All attributes values (states) from the previous version of this Book are carried over by default if not included in the hash.
++ Parameters
+    + id (required, number) ... numerical ID of the Book
+
++ Request (application/json)
+
+        {
+            "released": "1970"
+        }
+
++ Response 200
+    
+    [Book][]
+
+### Delete a Book [DELETE]
++ Parameters
+    + id (required, number) ... numerical ID of the Book
++ Response 204
+
++ Response 400
+
+    + Body
+
+            {"code" : 401, "message": "book wasn't found"}
+
+
+## Books Collection [/Books{?author,title,limit,offset}]
+Collection of all Books.
+
+The Book Collection resource has the following attribute:
+
+- total
+
+In addition it **embeds** *Book Resources* in the BooksSet API.
+
+
++ Model (application/hal+json)
+
+    HAL+JSON representation of Book Collection Resource. The Book resources in collections are embedded. Note the embedded Books resource are incomplete representations of the Book in question. Use the respective Book link to retrieve its full representation.
+
+    + Headers
+
+            Link: <http:/api.booksset.com/books>;rel="self"
+
+    + Body
+
+            {
+                "books": [
+                    {
+                        "book" : { 
+                            "id":"1234", 
+                            "title": "Война и мир", 
+                            "author": "Л.Н. Толстой", 
+                            "released": "1868"
+                        }
+                    }, 
+                    {
+                        "book" : { 
+                            "id":"1235", 
+                            "title":"Господин Ау", 
+                            "author", "Э. Успенский",  
+                            "released" : "1980"
+                        }
+                    }
+                ]
+                "_metadata" : [
+                    {
+                        "totalCount":250,
+                        "limit":10,
+                        "offset":0
+                    }
+                ] 
+            }
+            
+### List All Books [GET]
++ Parameters
+    + offset (optional, string) ...start position in the whole list of results
+    + limit (optional, string) ...limit number of results
+    + author (optional, string) ...filter list by author
+    + title (optional, string) ...filter list by book title
+
++ Response 200
+
+    [Books Collection][]
+
+### Create a Book [POST]
+
++ Request (application/json)
+
+        {
+            "title": "New book title",
+            "author": "Author of new book"
+        }
+
++ Response 201
+
+    [Book][]
+
