@@ -23,19 +23,37 @@ HAL links.
 ## Retrieve the Entry Point [GET]
 
 + Response 200 (application/hal+json)
-    + Headers
-    
-            Link: <http:/api.booksset.com/>;rel="self",<http:/api.booksset.com/books>;rel="books"
 
     + Body
 
             {
-                "_links": {
-                    "self": { "href": "/" },
-                    "Books": { "href": "/books?{since}", "templated": true }
-                }
+                "books": [
+                    {
+                        "book" : { 
+                            "id":"1234", 
+                            "title": "Война и мир", 
+                            "author": "Л.Н. Толстой", 
+                            "released": "1868"
+                        }
+                    }, 
+                    {
+                        "book" : { 
+                            "id":"1235", 
+                            "title":"Господин Ау", 
+                            "author", "Э. Успенский",  
+                            "released" : "1980"
+                        }
+                    }
+                ]
+                "_metadata" : [
+                    {
+                        "totalCount":250,
+                        "limit":10,
+                        "offset":0
+                    }
+                ] 
             }
-
+            
 # Group Book
 Book-related resources of *BooksSet API*.
 
@@ -111,7 +129,7 @@ To update a Book send a JSON with updated value for one or more of the Book reso
             {"code" : 401, "message": "book wasn't found"}
 
 
-## Books Collection [/Books{?author,title,limit,offset}]
+## Books Collection [/books{?author,title,limit,offset}]
 Collection of all Books.
 
 The Book Collection resource has the following attribute:
