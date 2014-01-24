@@ -7,8 +7,6 @@ Sample REST API for books set.
 BooksSet API does not provide authenticated access.
 
 ## Media Types
-Where applicable this API uses the [HAL+JSON](https://github.com/mikekelly/hal_specification/blob/master/hal_specification.md) media-type to represent resources states and affordances.
-
 Requests with a message-body are using plain JSON to set or update resource states.
 
 ## Error States
@@ -17,12 +15,9 @@ Requests with a message-body are using plain JSON to set or update resource stat
 # BooksSet API Root [/]
 BooksSet API entry point.
 
-This resource does not have any attributes. Instead it offers the initial API affordances in the form of the HTTP Link header and 
-HAL links.
-
 ## Retrieve the Entry Point [GET]
 
-+ Response 200 (application/hal+json)
++ Response 200 (application/json)
 
     + Body
 
@@ -69,9 +64,9 @@ The Book resource has the following attributes:
 
 The state *id* is assigned by the BooksSet API at the moment of creation. 
 
-+ Model (application/hal+json)
++ Model (application/json)
 
-    HAL+JSON representation of Book Resource. In addition to representing its state in the JSON form it offers affordances in the form of the HTTP Link header and HAL links.
+    JSON representation of Book Resource. 
 
     + Headers
 
@@ -139,13 +134,13 @@ The Book Collection resource has the following attribute:
 In addition it **embeds** *Book Resources* in the BooksSet API.
 
 
-+ Model (application/hal+json)
++ Model (application/json)
 
-    HAL+JSON representation of Book Collection Resource. The Book resources in collections are embedded. Note the embedded Books resource are incomplete representations of the Book in question. Use the respective Book link to retrieve its full representation.
+    JSON representation of Book Collection Resource. 
 
     + Headers
 
-            Link: <http:/api.booksset.com/books>;rel="self"
+            Link: <http:/api.booksset.com/books>;rel="self" 
 
     + Body
 
@@ -172,8 +167,26 @@ In addition it **embeds** *Book Resources* in the BooksSet API.
                     {
                         "totalCount":250,
                         "limit":10,
-                        "offset":0
+                        "offset":20
                     }
+                ] 
+                "_links" : [
+                    {
+                        "rel": "next",
+                        "href": "/v1/books?offset=30&limit=10
+                    }, 
+                    {
+                        "rel": "prev",
+                        "href": "/v1/books?offset=10
+                    }, 
+                    {
+                        "rel": "first",
+                        "href": "/v1/books?offset=0
+                    }, 
+                    {
+                        "rel": "last",
+                        "href": "/v1/books?offset=240
+                    } 
                 ] 
             }
             
