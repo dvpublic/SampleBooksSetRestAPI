@@ -35,12 +35,12 @@ BooksSet API entry point.
                         "book" : { 
                             "id":"1235", 
                             "title":"Господин Ау", 
-                            "author", "Э. Успенский",  
+                            "author": "Э. Успенский",  
                             "released" : "1980"
                         }
                     }
                 ]
-                "_metadata" : [
+                , "_metadata" : [
                     {
                         "totalCount":250,
                         "limit":10,
@@ -158,34 +158,34 @@ In addition it **embeds** *Book Resources* in the BooksSet API.
                         "book" : { 
                             "id":"1235", 
                             "title":"Господин Ау", 
-                            "author", "Э. Успенский",  
+                            "author": "Э. Успенский",  
                             "released" : "1980"
                         }
                     }
                 ]
-                "_metadata" : [
+                , "_metadata" : [
                     {
                         "totalCount":250,
                         "limit":10,
                         "offset":20
                     }
                 ] 
-                "_links" : [
+                , "_links" : [
                     {
                         "rel": "next",
-                        "href": "/v1/books?offset=30&limit=10
+                        "href": "/v1/books?offset=30&limit=10"
                     }, 
                     {
                         "rel": "prev",
-                        "href": "/v1/books?offset=10
+                        "href": "/v1/books?offset=10"
                     }, 
                     {
                         "rel": "first",
-                        "href": "/v1/books?offset=0
+                        "href": "/v1/books?offset=0"
                     }, 
                     {
                         "rel": "last",
-                        "href": "/v1/books?offset=240
+                        "href": "/v1/books?offset=240"
                     } 
                 ] 
             }
